@@ -7,6 +7,7 @@
 | 本仓库路径 | 拷贝到 |
 |------|------|
 | `unitree_rl_lab/tasks/velocity_robust_env_cfg.py` | `<unitree_rl_lab>/source/unitree_rl_lab/unitree_rl_lab/tasks/locomotion/robots/go2/velocity_robust_env_cfg.py` |
+| `unitree_rl_lab/tasks/velocity_gait_terrain_env_cfg.py` | `<unitree_rl_lab>/.../go2/velocity_gait_terrain_env_cfg.py`（**多地形 + 步态奖励**，见下文） |
 | `unitree_rl_lab/tasks/__init__.py` | `<unitree_rl_lab>/source/unitree_rl_lab/unitree_rl_lab/tasks/locomotion/robots/go2/__init__.py`（**会覆盖原文件，建议先备份**） |
 | `unitree_rl_lab/scripts/play_keyboard.py` | `<unitree_rl_lab>/scripts/rsl_rl/play_keyboard.py` |
 | `unitree_rl_lab/scripts/export_onnx_standalone.py` | `<unitree_rl_lab>/scripts/rsl_rl/export_onnx_standalone.py` |
@@ -20,12 +21,37 @@ RL_LAB=$HOME/unitree_rl_lab
 cp $ROS2_GO2_RL_DEMO/unitree_rl_lab/tasks/velocity_robust_env_cfg.py \
    $RL_LAB/source/unitree_rl_lab/unitree_rl_lab/tasks/locomotion/robots/go2/
 
+cp $ROS2_GO2_RL_DEMO/unitree_rl_lab/tasks/velocity_gait_terrain_env_cfg.py \
+   $RL_LAB/source/unitree_rl_lab/unitree_rl_lab/tasks/locomotion/robots/go2/
+
 cp $ROS2_GO2_RL_DEMO/unitree_rl_lab/tasks/__init__.py \
    $RL_LAB/source/unitree_rl_lab/unitree_rl_lab/tasks/locomotion/robots/go2/__init__.py
 
 cp $ROS2_GO2_RL_DEMO/unitree_rl_lab/scripts/play_keyboard.py        $RL_LAB/scripts/rsl_rl/
 cp $ROS2_GO2_RL_DEMO/unitree_rl_lab/scripts/export_onnx_standalone.py $RL_LAB/scripts/rsl_rl/
 ```
+
+## 多地形 + 改善低速打滑 /「后腿不参与」(v2 训练推荐)
+
+若出现：**低速像滑行而非迈步**、**后腿发力感弱**、**只在平地能走**，请改用任务 **`Unitree-Go2-Gait-Terrain-Robust`**（见 `velocity_gait_terrain_env_cfg.py` 文件头说明）。相对 `Velocity-Robust`，该配置：
+
+- 使用 Isaac Lab **`ROUGH_TERRAINS_CFG`**（台阶 / 粗糙地面 / 斜坡等），并按 Go2 体型缩小起伏；
+- **加大 `feet_slide` 惩罚**、提高 **`feet_air_time`**，减弱仅靠摩擦「蹭」速度的策略；
+- **放宽初始速度指令采样区间**，减轻课程早期只学「极小 vx → 滑行」的捷径；
+- 略放宽 **`track_lin_vel_xy` 指数跟踪带宽**，降低为追速度而过度黏地的倾向。
+
+训练示例：
+
+```bash
+conda activate env_isaaclab
+cd $RL_LAB
+python scripts/rsl_rl/train.py --task Unitree-Go2-Gait-Terrain-Robust \
+       --num_envs 4096 --max_iterations 5000 --headless 2>&1 | tee /tmp/go2_train_gait.log
+```
+
+导出 ONNX / 刷新 ROS 策略流程不变（`export_onnx_standalone.py` + `refresh_policy.sh`）。
+
+---
 
 ## 使用
 

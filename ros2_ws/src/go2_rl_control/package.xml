@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>go2_rl_control</name>
+  <version>0.1.0</version>
+  <description>
+    ROS 2 nodes that run a Unitree Go2 RL policy (trained in IsaacLab via
+    unitree_rl_lab). Provides:
+      * rl_inference_node  (C++ ament_cmake): ONNX policy + PD torque output
+      * mujoco_sim_node    (Python): standalone MuJoCo bridge for sim2sim
+      * keyboard_teleop    (Python): WASD/QE/123 -> /go2/cmd_vel, /go2/mode
+  </description>
+  <maintainer email="todo@todo.todo">go2_rl_control</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>yaml-cpp</depend>
+  <depend>eigen</depend>
+
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

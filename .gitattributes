@@ -1,0 +1,16 @@
+# Line endings
+* text=auto eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.xml text eol=lf
+
+# Binaries
+*.onnx binary
+*.obj binary
+*.dae binary
+*.stl binary
+*.png binary

@@ -1,0 +1,27 @@
+# ROS 2 colcon
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Local checkpoints / large artifacts (keep policy/ small ONNX in-tree)
+logs/
+*.pt
+*.tfevents.*
+videos/
+wandb/
+
+# Environment-specific outputs
+*.bak
+*.tmp

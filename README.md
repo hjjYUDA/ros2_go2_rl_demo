@@ -73,7 +73,7 @@ ros2_go2_rl_demo/
 
 ---
 
-## 3. 一分钟启动（已编译，已 source）
+## 3. 启动（已编译，已 source）
 
 ```bash
 # 终端 A：MuJoCo + 推理（注意：不要在 conda env 里运行）
@@ -132,7 +132,7 @@ ros2 topic pub --once /go2/disturb geometry_msgs/msg/Vector3 "{x: 5.0, y: 0.0, z
 
 ---
 
-## 7. 致谢
+## 7. 参考内容
 
 - [unitree-rl-lab/unitree_rl_lab](https://github.com/unitree-rl-lab/unitree_rl_lab)：Go2 RL 训练任务与 deploy 元数据约定
 - [google-deepmind/mujoco_menagerie](https://github.com/google-deepmind/mujoco_menagerie)：Unitree Go2 MJCF 与 mesh
